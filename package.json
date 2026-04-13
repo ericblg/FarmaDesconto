@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ericblg/FarmaDesconto#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "sequelize": "^6.37.8",
