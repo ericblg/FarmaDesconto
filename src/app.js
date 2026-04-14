@@ -15,11 +15,10 @@ app.use("/usuarios", usuarioRoutes);
 
 console.log("usuarioRoutes:", usuarioRoutes);
 
-sequelize.sync()
-
-// sequelize.sync().then(() => {
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+sequelize.sync().then(() => {
+  app.listen(3000, () => {
+    console.log("Servidor rodando na porta 3000");
+  });
+}).catch((err) => {
+  console.error("Erro ao conectar com o banco de dados:", err);
 });
-
-//});
