@@ -21,6 +21,17 @@ const Product = sequelize.define("Product", {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  farmacia_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "farmacias",
+      key: "id"
+    }
+  }
+}, {
+  tableName: "produtos",
+  timestamps: false
 });
 
 module.exports = Product;

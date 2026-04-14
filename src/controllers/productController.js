@@ -1,13 +1,44 @@
 const Product = require("../models/Product");
+const Farmacia = require("../models/farmaciaModel");
 const { Op } = require("sequelize");
 
 // Criar produto
 exports.createProduct = async (req, res) => {
+  const { nome, preco, data_validade, farmacia_id, descricao, quantidade } = req.body;
+
+  // 1. Validar campos obrigatórios
+  if (!nome || !preco || !data_validade || !farmacia_id) {
+    return res.status(400).json({
+      erro: "Os campos nome, preco, data_validade e farmacia_id são obrigatórios"
+    });
+  }
+
   try {
-    const product = await Product.create(req.body);
-    res.json(product);
+    // 2. Verificar se a farmácia existe
+    const farmacia = await Farmacia.findByPk(farmacia_id);
+    if (!farmacia) {
+      return res.status(404).json({
+        erro: "Farmácia não encontrada"
+      });
+    }
+
+    // 3. Criar produto
+    const product = await Product.create({
+      nome,
+      descricao,
+      preco,
+      data_validade,
+      quantidade,
+      farmacia_id
+    });
+
+    res.status(201).json({
+      mensagem: "Produto cadastrado com sucesso",
+      produto: product
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ erro: "Erro ao cadastrar produto", detalhes: err.message });
   }
 };
 

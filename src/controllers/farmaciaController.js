@@ -1,4 +1,5 @@
 const Farmacia = require("../models/farmaciaModel");
+const Usuario = require("../models/usuario");
 
 
 exports.cadastrar = async (req, res) => {
@@ -24,6 +25,17 @@ exports.cadastrar = async (req, res) => {
     if (usuario.tipo !== "farmacia") {
       return res.status(403).json({
         erro: "Usuário não é do tipo farmácia"
+      });
+    }
+
+    // 🚫 verificar cadastro duplicado (mesmo usuário cadastrando a mesma farmácia - opcional)
+    const farmaciaExistente = await Farmacia.findOne({ 
+      where: { usuario_id, nome } 
+    });
+
+    if (farmaciaExistente) {
+      return res.status(400).json({
+        erro: "Esta farmácia já está cadastrada para este usuário"
       });
     }
 

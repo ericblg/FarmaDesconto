@@ -26,7 +26,11 @@ const Farmacia = sequelize.define("Farmacia", {
   },
   usuario_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: "usuarios",
+      key: "id"
+    }
   }
 }, {
   tableName: "farmacias", 
