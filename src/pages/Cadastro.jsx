@@ -10,34 +10,41 @@ export default function Cadastro() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [tipo, setTipo] = useState("cliente");
 
   const [erro, setErro] = useState("");
 
-  function cadastrar() {
-
-    if (
-      nome === "" ||
-      email === "" ||
-      senha === "" ||
-      confirmarSenha === ""
-    ) {
-
+  async function cadastrar() {
+    if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
       setErro("Preencha todos os campos");
       return;
-
     }
 
     if (senha !== confirmarSenha) {
-
       setErro("As senhas não coincidem");
       return;
-
     }
 
-    setErro("");
+    try {
+      const response = await fetch("http://localhost:3000/usuarios/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nome, email, senha, tipo }),
+      });
 
-    alert("Cadastro realizado com sucesso!");
+      const data = await response.json();
 
+      if (response.ok) {
+        setErro("");
+        alert("Cadastro realizado com sucesso!");
+      } else {
+        setErro(data.erro || "Erro ao realizar cadastro");
+      }
+    } catch (error) {
+      setErro("Erro ao conectar com o servidor");
+    }
   }
 
   return (
@@ -89,6 +96,16 @@ export default function Cadastro() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
+        </div>
+
+        <div className="form-group">
+
+          <label>Tipo de Conta</label>
+          <select value={tipo} onChange={(e) => setTipo(e.target.value)} style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#fff', width: '100%', marginBottom: '10px' }}>
+            <option value="cliente">Cliente</option>
+            <option value="farmacia">Farmácia</option>
+          </select>
 
         </div>
 

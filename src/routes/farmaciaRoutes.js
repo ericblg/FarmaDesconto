@@ -1,11 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-
-const farmaciaController = require("../controllers/farmaciaController");
+import * as farmaciaController from "../controllers/farmaciaController.js";
 
 // rota POST
 router.post("/", farmaciaController.cadastrar);
 router.get("/", farmaciaController.listar);
 
-module.exports = router; 
+export default router;

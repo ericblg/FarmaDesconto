@@ -17,25 +17,29 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
 
-  function entrar() {
+  async function entrar() {
+    try {
+      const response = await fetch("http://localhost:3000/usuarios/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: login, senha: senha }),
+      });
 
-    if (
-      (login === "admin" ||
-      login === "admin@email.com")
-      &&
-      senha === "1234"
-    ) {
+      const data = await response.json();
 
-      setErro("");
-
-      navigate("/dashboard");
-
-    } else {
-
-      setErro("Login ou senha incorretos");
-
+      if (response.ok) {
+        setErro("");
+        // Save user info if needed
+        localStorage.setItem("usuario", JSON.stringify(data));
+        navigate("/dashboard");
+      } else {
+        setErro(data.erro || "Login ou senha incorretos");
+      }
+    } catch (error) {
+      setErro("Erro ao conectar com o servidor");
     }
-
   }
 
   return (

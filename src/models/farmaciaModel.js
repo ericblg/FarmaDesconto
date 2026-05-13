@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
 // Colocar no postman 
 // {
@@ -8,8 +8,6 @@ const sequelize = require("../config/database");
 //  "telefone": "21999999999",
 //  "usuario_id": 1
 // }
-
-
 
 const Farmacia = sequelize.define("Farmacia", {
   nome: {
@@ -37,4 +35,4 @@ const Farmacia = sequelize.define("Farmacia", {
   timestamps: false       
 });
 
-module.exports = Farmacia;
+export default Farmacia;

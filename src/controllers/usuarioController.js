@@ -1,7 +1,6 @@
-const Usuario = require("../models/usuario");
-const bcrypt = require("bcryptjs");
+import Usuario from "../models/usuario.js";
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
     try {
         const { nome, email, senha, tipo } = req.body;
 
@@ -21,15 +20,11 @@ exports.register = async (req, res) => {
             return res.status(400).json({ erro: "E-mail já cadastrado" });
         }
 
-        // Criptografar senha
-        const salt = await bcrypt.genSalt(10);
-        const senhaCriptografada = await bcrypt.hash(senha, salt);
-
-        // Criar usuário
+        // Criar usuário (sem criptografia)
         const usuario = await Usuario.create({
             nome,
             email,
-            senha: senhaCriptografada,
+            senha, // Senha em texto puro
             tipo
         });
 
@@ -50,7 +45,7 @@ exports.register = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { email, senha } = req.body;
 
@@ -64,9 +59,8 @@ exports.login = async (req, res) => {
             return res.status(401).json({ erro: "Usuário não encontrado" });
         }
 
-        // Validar senha
-        const senhaValida = await bcrypt.compare(senha, usuario.senha);
-        if (!senhaValida) {
+        // Validar senha (texto puro)
+        if (senha !== usuario.senha) {
             return res.status(401).json({ erro: "Senha incorreta" });
         }
 
@@ -81,12 +75,11 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.listarUsuarios = async (req, res) => {
+export const listarUsuarios = async (req, res) => {
     const usuarios = await Usuario.findAll({
         attributes: ['id', 'nome', 'email', 'tipo']
     });
     res.json(usuarios);
 };
 
-// Mantendo o nome antigo para compatibilidade se necessário, mas redirecionando ou avisando
-exports.criarUsuario = exports.register;
+export const criarUsuario = register;

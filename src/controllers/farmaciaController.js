@@ -1,8 +1,8 @@
-const Farmacia = require("../models/farmaciaModel");
-const Usuario = require("../models/usuario");
+import Farmacia from "../models/farmaciaModel.js";
+import Usuario from "../models/usuario.js";
 
 
-exports.cadastrar = async (req, res) => {
+export const cadastrar = async (req, res) => {
   const { nome, endereco, telefone, usuario_id } = req.body;
 
   if (!nome || !endereco || !telefone || !usuario_id) {
@@ -61,7 +61,7 @@ exports.cadastrar = async (req, res) => {
 };
 
 
-exports.listar = async (req, res) => {
+export const listar = async (req, res) => {
   try {
     const farmacias = await Farmacia.findAll({
       attributes: ["id", "nome", "endereco", "telefone", "usuario_id"]

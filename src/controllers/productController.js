@@ -1,9 +1,9 @@
-const Product = require("../models/Product");
-const Farmacia = require("../models/farmaciaModel");
-const { Op } = require("sequelize");
+import Product from "../models/Product.js";
+import Farmacia from "../models/farmaciaModel.js";
+import { Op } from "sequelize";
 
 // Criar produto
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   const { nome, preco, data_validade, farmacia_id, descricao, quantidade } = req.body;
 
   // 1. Validar campos obrigatórios
@@ -43,13 +43,13 @@ exports.createProduct = async (req, res) => {
 };
 
 // Listar todos
-exports.getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   const products = await Product.findAll();
   res.json(products);
 };
 
 // Filtro: próximos do vencimento (ex: 7 dias)
-exports.getExpiringProducts = async (req, res) => {
+export const getExpiringProducts = async (req, res) => {
   const hoje = new Date();
   const limite = new Date();
   limite.setDate(hoje.getDate() + 7);
