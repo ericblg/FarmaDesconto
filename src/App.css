@@ -829,13 +829,15 @@ MEDICAMENTOS
 }
 
 .med-card {
-
   border: 1px solid #e5e7eb;
-
   border-radius: 22px;
-
   padding: 25px;
+  transition: all 0.3s ease;
+}
 
+.med-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .med-card h3 {
@@ -1871,4 +1873,93 @@ NAVBAR
 
   }
 
+}
+
+/* =========================
+DARK MODE
+========================= */
+
+body.dark-mode {
+  background: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .card,
+body.dark-mode .navbar,
+body.dark-mode .grafico-box,
+body.dark-mode .impacto-social,
+body.dark-mode .filtros,
+body.dark-mode .medicamentos-recentes,
+body.dark-mode .med-card,
+body.dark-mode .tabela-box,
+body.dark-mode .card-cadastro,
+body.dark-mode .fornecedor-premium {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .logo {
+  color: #f9fafb;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode td,
+body.dark-mode th {
+  color: #d1d5db;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+  background: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode .navbar-menu a {
+  color: #d1d5db;
+}
+
+body.dark-mode .navbar-menu a:hover {
+  background: #374151;
+}
+
+body.dark-mode .btn-secundario {
+  background: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+body.dark-mode .dark-mode-toggle {
+  background: #f59e0b;
+  color: #111827;
 }

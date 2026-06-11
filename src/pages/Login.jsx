@@ -33,7 +33,11 @@ export default function Login() {
         setErro("");
         // Save user info if needed
         localStorage.setItem("usuario", JSON.stringify(data));
-        navigate("/dashboard");
+        if (data.tipo === 'farmacia') {
+          navigate("/dashboard");
+        } else {
+          navigate("/medicamentos");
+        }
       } else {
         setErro(data.erro || "Login ou senha incorretos");
       }

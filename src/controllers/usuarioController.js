@@ -1,5 +1,5 @@
 import Usuario from "../models/usuario.js";
-
+import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
     try {
         const { nome, email, senha, tipo } = req.body;
@@ -64,11 +64,18 @@ export const login = async (req, res) => {
             return res.status(401).json({ erro: "Senha incorreta" });
         }
 
-        // Retorno de dados do usuário
+        const token = jwt.sign(
+            { id: usuario.id, nome: usuario.nome, tipo: usuario.tipo },
+            process.env.JWT_SECRET || "faculdade-secret-key",
+            { expiresIn: 86400 } // 24 horas
+        );
+
+        // Retorno de dados do usuário e o token
         res.status(200).json({
             id: usuario.id,
             nome: usuario.nome,
-            tipo: usuario.tipo
+            tipo: usuario.tipo,
+            token
         });
     } catch (error) {
         res.status(500).json({ erro: "Erro ao realizar login", detalhes: error.message });

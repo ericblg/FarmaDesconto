@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -10,13 +11,31 @@ import Dashboard from "./pages/Dashboard";
 import Medicamentos from "./pages/Medicamentos";
 import Cadastrar from "./pages/Cadastrar";
 import Solicitacoes from "./pages/Solicitacoes";
-
+import Editar from "./pages/Editar";
 export default function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   return (
-
     <BrowserRouter>
-
+      <button 
+        className="dark-mode-toggle" 
+        onClick={() => setDarkMode(!darkMode)}
+        title="Alternar Modo Escuro"
+      >
+        {darkMode ? '☀️' : '🌙'}
+      </button>
       <Routes>
 
         {/* LOGIN */}
@@ -52,6 +71,13 @@ export default function App() {
         <Route
           path="/cadastrar"
           element={<Cadastrar />}
+        />
+
+        {/* EDITAR */}
+
+        <Route
+          path="/editar/:id"
+          element={<Editar />}
         />
 
         {/* SOLICITAÇÕES */}

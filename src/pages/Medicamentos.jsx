@@ -1,367 +1,140 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar";
 
 export default function Medicamentos() {
+  const usuarioStr = localStorage.getItem("usuario");
+  const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
+  const isFarmacia = usuario && usuario.tipo === "farmacia";
+
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [buscaTexto, setBuscaTexto] = useState("");
+  const [categoriaFiltro, setCategoriaFiltro] = useState("Todas as categorias");
+
+  useEffect(() => {
+    async function carregarProdutos() {
+      try {
+        const response = await fetch("http://localhost:3000/produtos");
+        if (response.ok) {
+          const data = await response.json();
+          setProdutos(data);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar produtos:", err);
+      } finally {
+        setCarregando(false);
+      }
+    }
+    carregarProdutos();
+  }, []);
 
   return (
-
     <>
-
       <Navbar />
-
       <div className="dashboard">
-
-        {/* HEADER */}
-
         <div className="solicitacoes-header">
-
-          <h1>
-            Medicamentos Disponíveis
-          </h1>
-
-          <p>
-            Encontre medicamentos próximos do vencimento disponíveis para solicitação
-          </p>
-
+          <h1>{isFarmacia ? "Meus Medicamentos Cadastrados" : "Medicamentos Disponíveis"}</h1>
+          <p>{isFarmacia ? "Gerencie seu estoque de medicamentos" : "Encontre medicamentos disponíveis para solicitação"}</p>
         </div>
-
-        {/* FILTROS */}
 
         <div className="filtros">
-
-          <h2>
-            🔎 Filtros de Busca
-          </h2>
-
+          <h2>🔎 Filtros de Busca</h2>
           <div className="filtros-grid">
-
             <div className="form-group">
-
-              <label>
-                Buscar
-              </label>
-
-              <input
-                type="text"
-                placeholder="Nome ou categoria..."
+              <label>Buscar</label>
+              <input 
+                type="text" 
+                placeholder="Nome ou categoria..." 
+                value={buscaTexto}
+                onChange={(e) => setBuscaTexto(e.target.value)}
               />
-
             </div>
-
             <div className="form-group">
-
-              <label>
-                Categoria
-              </label>
-
-              <select>
-
-                <option>
-                  Todas as categorias
-                </option>
-
-                <option>
-                  Analgésicos
-                </option>
-
-                <option>
-                  Anti-inflamatórios
-                </option>
-
-                <option>
-                  Antibióticos
-                </option>
-
+              <label>Categoria</label>
+              <select value={categoriaFiltro} onChange={(e) => setCategoriaFiltro(e.target.value)}>
+                <option value="Todas as categorias">Todas as categorias</option>
+                <option value="Analgésicos">Analgésicos</option>
+                <option value="Anti-inflamatórios">Anti-inflamatórios</option>
+                <option value="Antibióticos">Antibióticos</option>
               </select>
-
             </div>
-
-            <div className="form-group">
-
-              <label>
-                Estado
-              </label>
-
-              <select>
-
-                <option>
-                  Todos os estados
-                </option>
-
-                <option>
-                  São Paulo
-                </option>
-
-                <option>
-                  Rio de Janeiro
-                </option>
-
-                <option>
-                  Minas Gerais
-                </option>
-
-              </select>
-
-            </div>
-
-            <div className="form-group">
-
-              <label>
-                Validade
-              </label>
-
-              <select>
-
-                <option>
-                  Todos os prazos
-                </option>
-
-                <option>
-                  15 dias
-                </option>
-
-                <option>
-                  30 dias
-                </option>
-
-                <option>
-                  60 dias
-                </option>
-
-              </select>
-
-            </div>
-
           </div>
-
           <div className="resultado-busca">
-
-            <span>
-              7
-            </span>
-
-            <p>
-              medicamentos encontrados
-            </p>
-
+            <p>Use os filtros para refinar os resultados</p>
           </div>
-
         </div>
-
-        {/* MEDICAMENTOS */}
 
         <div className="medicamentos-grid">
-
-          {/* CARD */}
-
-          <div className="med-card premium">
-
-            <h3>
-              Paracetamol 500mg
-            </h3>
-
-            <div className="tags">
-
-              <span className="categoria">
-                Analgésicos
-              </span>
-
-              <span className="status disponivel">
-                Disponível
-              </span>
-
-            </div>
-
-            <div className="info-med">
-
-              <p>
-                📦 500 comprimidos
-              </p>
-
-              <p>
-                📍 São Paulo, SP
-              </p>
-
-            </div>
-
-            <div className="validade-box">
-
-              <div>
-
-                <span>
-                  Validade
-                </span>
-
-                <h4>
-                  14/05/2026
-                </h4>
-
-              </div>
-
-              <div className="dias-restantes">
-
-                65 dias
-
-              </div>
-
-            </div>
-
-            <div className="fornecedor">
-
-              <span>
-                Fornecedor
-              </span>
-
-              <h4>
-                Farmácia Central
-              </h4>
-
-            </div>
-
-          </div>
-
-          {/* CARD */}
-
-          <div className="med-card premium">
-
-            <h3>
-              Ibuprofeno 600mg
-            </h3>
-
-            <div className="tags">
-
-              <span className="categoria">
-                Anti-inflamatórios
-              </span>
-
-              <span className="status disponivel">
-                Disponível
-              </span>
-
-            </div>
-
-            <div className="info-med">
-
-              <p>
-                📦 300 comprimidos
-              </p>
-
-              <p>
-                📍 Rio de Janeiro, RJ
-              </p>
-
-            </div>
-
-            <div className="validade-box">
-
-              <div>
-
-                <span>
-                  Validade
-                </span>
-
-                <h4>
-                  19/04/2026
-                </h4>
-
-              </div>
-
-              <div className="dias-restantes laranja">
-
-                40 dias
-
-              </div>
-
-            </div>
-
-            <div className="fornecedor">
-
-              <span>
-                Fornecedor
-              </span>
-
-              <h4>
-                Hospital Santa Casa
-              </h4>
-
-            </div>
-
-          </div>
-
-          {/* CARD */}
-
-          <div className="med-card premium">
-
-            <h3>
-              Amoxicilina 500mg
-            </h3>
-
-            <div className="tags">
-
-              <span className="categoria">
-                Antibióticos
-              </span>
-
-              <span className="status reservado">
-                Reservado
-              </span>
-
-            </div>
-
-            <div className="info-med">
-
-              <p>
-                📦 200 cápsulas
-              </p>
-
-              <p>
-                📍 Belo Horizonte, MG
-              </p>
-
-            </div>
-
-            <div className="validade-box">
-
-              <div>
-
-                <span>
-                  Validade
-                </span>
-
-                <h4>
-                  29/06/2026
-                </h4>
-
-              </div>
-
-              <div className="dias-restantes">
-
-                111 dias
-
-              </div>
-
-            </div>
-
-            <div className="fornecedor">
-
-              <span>
-                Fornecedor
-              </span>
-
-              <h4>
-                Farmácia Saúde
-              </h4>
-
-            </div>
-
-          </div>
-
+          {carregando ? (
+            <p>Carregando medicamentos...</p>
+          ) : (() => {
+              let produtosExibidos = isFarmacia ? produtos.filter(p => p.farmacia_id === usuario.id) : produtos;
+              
+              if (buscaTexto) {
+                const buscaLower = buscaTexto.toLowerCase();
+                produtosExibidos = produtosExibidos.filter(p => 
+                  p.nome.toLowerCase().includes(buscaLower) || 
+                  (p.descricao && p.descricao.toLowerCase().includes(buscaLower))
+                );
+              }
+
+              if (categoriaFiltro !== "Todas as categorias") {
+                produtosExibidos = produtosExibidos.filter(p => 
+                  p.descricao && p.descricao.includes(categoriaFiltro)
+                );
+              }
+
+              return produtosExibidos.length > 0 ? (
+                produtosExibidos.map((produto) => {
+                  const dataValidade = new Date(produto.data_validade);
+              const hoje = new Date();
+              const diasRestantes = Math.ceil((dataValidade - hoje) / (1000 * 60 * 60 * 24));
+              
+              return (
+                <div key={produto.id} className="med-card premium">
+                  <h3>{produto.nome}</h3>
+                  <div className="tags">
+                    <span className="categoria">{produto.descricao?.split(' - ')[0] || 'Sem Categoria'}</span>
+                    <span className="status disponivel">Disponível</span>
+                  </div>
+                  <div className="info-med">
+                    <p>📦 {produto.quantidade} unidades</p>
+                    <p>📍 Farmácia Parceira</p>
+                  </div>
+                  <div className="validade-box">
+                    <div>
+                      <span>Validade</span>
+                      <h4>{dataValidade.toLocaleDateString('pt-BR')}</h4>
+                    </div>
+                    <div className={`dias-restantes ${diasRestantes < 30 ? 'laranja' : ''}`}>
+                      {diasRestantes} dias
+                    </div>
+                  </div>
+                  <div className="fornecedor">
+                    <span>Fornecedor</span>
+                    <h4>Farmácia Parceira (ID: {produto.farmacia_id})</h4>
+                  </div>
+                  
+                  {isFarmacia ? (
+                    <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #eee', display: 'flex', gap: '10px' }}>
+                      <Link to={`/editar/${produto.id}`} className="btn-secundario" style={{ flex: 1, textAlign: 'center', textDecoration: 'none' }}>Editar</Link>
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #eee', display: 'flex', gap: '10px' }}>
+                      <button className="btn-principal" style={{ flex: 1 }}>Solicitar / Comprar</button>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <p>Nenhum medicamento encontrado.</p>
+          );
+          })()}
         </div>
-
       </div>
-
     </>
-
   );
-
 }

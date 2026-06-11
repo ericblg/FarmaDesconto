@@ -27,7 +27,38 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
-sequelize.sync().then(() => {
+import Usuario from "./models/usuario.js";
+import Farmacia from "./models/farmaciaModel.js";
+
+sequelize.sync().then(async () => {
+  try {
+    const usuarioCount = await Usuario.count();
+    let user;
+    if (usuarioCount === 0) {
+      user = await Usuario.create({
+        nome: "Apresentação",
+        email: "teste@teste.com",
+        senha: "123",
+        tipo: "farmacia"
+      });
+    } else {
+      user = await Usuario.findOne();
+    }
+
+    const farmaciaCount = await Farmacia.count();
+    if (farmaciaCount === 0) {
+      await Farmacia.create({
+        nome: "Farmácia Central",
+        endereco: "Rua Principal, 100",
+        telefone: "11999999999",
+        usuario_id: user.id
+      });
+      console.log("Farmácia inicial (seed) criada com sucesso.");
+    }
+  } catch (e) {
+    console.error("Erro ao criar seed:", e);
+  }
+
   app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
   });
