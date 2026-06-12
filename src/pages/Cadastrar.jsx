@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import { api } from "../services/api";
 
 export default function Cadastrar() {
+  const usuarioStr = localStorage.getItem("usuario");
+  const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
+
   const [nome, setNome] = useState("");
   const [categoria, setCategoria] = useState("");
   const [quantidade, setQuantidade] = useState("");
@@ -23,7 +26,7 @@ export default function Cadastrar() {
         preco: 0, // mock já que é doação
         data_validade: validade,
         quantidade: Number(quantidade) || 1,
-        farmacia_id: 1 // mock para a apresentação
+        farmacia_id: usuario ? usuario.id : 1
       });
 
       alert("Medicamento cadastrado com sucesso!");
@@ -107,16 +110,15 @@ export default function Cadastrar() {
           <div className="fornecedor-premium">
             <div>
               <span>Organização</span>
-              <h3>Farmácia Central</h3>
+              <h3>{usuario ? usuario.nome : 'Farmácia Central'}</h3>
             </div>
             <div>
               <span>Tipo</span>
-              <h3>Farmácia</h3>
+              <h3>{usuario ? (usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1)) : 'Farmácia'}</h3>
             </div>
           </div>
 
           <div className="acoes-form">
-            <button className="btn-secundario">Cancelar</button>
             <button className="btn-principal" onClick={cadastrarMedicamento}>
               Cadastrar Medicamento
             </button>
