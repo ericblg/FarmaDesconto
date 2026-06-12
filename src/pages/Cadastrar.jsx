@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../App.css";
 import Navbar from "../components/Navbar";
+import { api } from "../services/api";
 
 export default function Cadastrar() {
   const [nome, setNome] = useState("");
@@ -16,39 +17,23 @@ export default function Cadastrar() {
     }
 
     try {
-      const usuarioStr = localStorage.getItem("usuario");
-      const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
-      const token = usuario ? usuario.token : null;
-
-      const response = await fetch("http://localhost:3000/produtos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          nome,
-          descricao: categoria + " - " + observacoes,
-          preco: 0, // mock já que é doação
-          data_validade: validade,
-          quantidade: Number(quantidade) || 1,
-          farmacia_id: 1 // mock para a apresentação
-        }),
+      await api.post("/produtos", {
+        nome,
+        descricao: categoria + " - " + observacoes,
+        preco: 0, // mock já que é doação
+        data_validade: validade,
+        quantidade: Number(quantidade) || 1,
+        farmacia_id: 1 // mock para a apresentação
       });
 
-      if (response.ok) {
-        alert("Medicamento cadastrado com sucesso!");
-        setNome("");
-        setCategoria("");
-        setQuantidade("");
-        setValidade("");
-        setObservacoes("");
-      } else {
-        const err = await response.json();
-        alert("Erro ao cadastrar: " + (err.erro || "Verifique os dados"));
-      }
+      alert("Medicamento cadastrado com sucesso!");
+      setNome("");
+      setCategoria("");
+      setQuantidade("");
+      setValidade("");
+      setObservacoes("");
     } catch (error) {
-      alert("Erro ao conectar com o servidor.");
+      alert("Erro ao cadastrar: " + (error.message || "Verifique os dados"));
     }
   }
 

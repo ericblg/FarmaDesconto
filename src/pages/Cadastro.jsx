@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
+import { api } from "../services/api";
 
 export default function Cadastro() {
 
@@ -14,6 +15,8 @@ export default function Cadastro() {
 
   const [erro, setErro] = useState("");
 
+  const navigate = useNavigate();
+
   async function cadastrar() {
     if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
       setErro("Preencha todos os campos");
@@ -26,24 +29,12 @@ export default function Cadastro() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/usuarios/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nome, email, senha, tipo }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setErro("");
-        alert("Cadastro realizado com sucesso!");
-      } else {
-        setErro(data.erro || "Erro ao realizar cadastro");
-      }
+      await api.post("/usuarios/register", { nome, email, senha, tipo });
+      setErro("");
+      alert("Cadastro realizado com sucesso!");
+      navigate("/"); // Redireciona para o login após cadastrar
     } catch (error) {
-      setErro("Erro ao conectar com o servidor");
+      setErro(error.message || "Erro ao conectar com o servidor");
     }
   }
 

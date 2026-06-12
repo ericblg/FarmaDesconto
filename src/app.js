@@ -6,6 +6,7 @@ import sequelize from "./config/database.js";
 import productRoutes from "./routes/productRoutes.js";
 import farmaciaRoutes from "./routes/farmaciaRoutes.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
+import solicitacaoRoutes from "./routes/solicitacaoRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/farmacias", farmaciaRoutes);
 app.use("/produtos", productRoutes);
 app.use("/usuarios", usuarioRoutes);
+app.use("/solicitacoes", solicitacaoRoutes);
 
 // Servir os arquivos estáticos do React (quando buildado com npm run build)
 app.use(express.static(path.join(__dirname, "../dist")));
@@ -29,6 +31,16 @@ app.use((req, res) => {
 
 import Usuario from "./models/usuario.js";
 import Farmacia from "./models/farmaciaModel.js";
+import Product from "./models/Product.js";
+import Solicitacao from "./models/solicitacaoModel.js";
+
+// Associações
+Solicitacao.belongsTo(Product, { foreignKey: "produto_id", as: "produto" });
+Solicitacao.belongsTo(Usuario, { foreignKey: "cliente_id", as: "cliente" });
+Solicitacao.belongsTo(Farmacia, { foreignKey: "farmacia_id", as: "farmacia" });
+Product.hasMany(Solicitacao, { foreignKey: "produto_id" });
+Usuario.hasMany(Solicitacao, { foreignKey: "cliente_id" });
+Farmacia.hasMany(Solicitacao, { foreignKey: "farmacia_id" });
 
 sequelize.sync().then(async () => {
   try {

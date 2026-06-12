@@ -15,6 +15,7 @@ export const verifyToken = (req, res, next) => {
         req.usuario = decoded; // Salva o payload do token na requisição
         next();
     } catch (err) {
+        console.error("Erro de Autenticação:", err.message);
         return res.status(401).json({ erro: "Não autorizado" });
     }
 };

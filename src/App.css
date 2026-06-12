@@ -279,13 +279,11 @@ DASHBOARD GERAL
 ========================= */
 
 .dashboard {
-
   min-height: 100vh;
-
   padding: 35px;
-
   background: #f5f7fb;
-
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* =========================
@@ -1962,4 +1960,94 @@ body.dark-mode .btn-secundario {
 body.dark-mode .dark-mode-toggle {
   background: #f59e0b;
   color: #111827;
+}
+
+/* =========================
+   MODO ESCURO - OVERRIDES
+========================= */
+body.dark-mode, 
+body.dark-mode .dashboard {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .filtros,
+body.dark-mode .dashboard-topo select,
+body.dark-mode .impacto-card,
+body.dark-mode .grafico-box,
+body.dark-mode .impacto-social,
+body.dark-mode .med-card,
+body.dark-mode .card-cadastro,
+body.dark-mode .secao-form,
+body.dark-mode .fornecedor-premium,
+body.dark-mode .navbar-premium,
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode textarea {
+  background-color: #1f2937 !important;
+  color: #f9fafb !important;
+  border-color: #374151 !important;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode p, 
+body.dark-mode span,
+body.dark-mode label {
+  color: #e5e7eb !important;
+}
+
+body.dark-mode .logo {
+  color: #f9fafb !important;
+}
+
+/* =========================
+   RESPONSIVIDADE (MOBILE)
+========================= */
+@media (max-width: 1024px) {
+  .impacto-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+  .filtros-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .medicamentos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+  }
+  .dashboard-topo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .impacto-cards {
+    grid-template-columns: 1fr;
+  }
+  .impacto-social-grid {
+    grid-template-columns: 1fr;
+  }
+  .filtros-grid {
+    grid-template-columns: 1fr;
+  }
+  .medicamentos-grid {
+    grid-template-columns: 1fr;
+  }
+  .linha-form, .linha-form-3 {
+    flex-direction: column;
+    gap: 0;
+  }
+  .nav-content {
+    flex-direction: column;
+    gap: 15px;
+  }
 }

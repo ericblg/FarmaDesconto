@@ -4,6 +4,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
+import { api } from "../services/api";
 
 import "../App.css";
 
@@ -19,30 +20,16 @@ export default function Login() {
 
   async function entrar() {
     try {
-      const response = await fetch("http://localhost:3000/usuarios/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: login, senha: senha }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setErro("");
-        // Save user info if needed
-        localStorage.setItem("usuario", JSON.stringify(data));
-        if (data.tipo === 'farmacia') {
-          navigate("/dashboard");
-        } else {
-          navigate("/medicamentos");
-        }
+      const data = await api.post("/usuarios/login", { email: login, senha: senha });
+      setErro("");
+      localStorage.setItem("usuario", JSON.stringify(data));
+      if (data.tipo === 'farmacia') {
+        navigate("/dashboard");
       } else {
-        setErro(data.erro || "Login ou senha incorretos");
+        navigate("/medicamentos");
       }
     } catch (error) {
-      setErro("Erro ao conectar com o servidor");
+      setErro(error.message || "Erro ao conectar com o servidor");
     }
   }
 

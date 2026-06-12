@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../App.css";
+import { api } from "../services/api";
 
 export default function Editar() {
   const { id } = useParams();
@@ -21,18 +22,14 @@ export default function Editar() {
   useEffect(() => {
     async function carregarProduto() {
       try {
-        const response = await fetch(`http://localhost:3000/produtos/${id}`);
-        if (!response.ok) {
-          throw new Error("Erro ao carregar produto.");
-        }
-        const data = await response.json();
+        const data = await api.get(`/produtos/${id}`);
         // Converte a data para o formato YYYY-MM-DD para o input type="date"
         if (data.data_validade) {
           data.data_validade = data.data_validade.split('T')[0];
         }
         setProduto(data);
       } catch (err) {
-        setErro(err.message);
+        setErro(err.message || "Erro ao carregar produto.");
       } finally {
         setCarregando(false);
       }
@@ -46,28 +43,11 @@ export default function Editar() {
     setErro("");
 
     try {
-      const usuarioStr = localStorage.getItem("usuario");
-      const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
-      const token = usuario ? usuario.token : null;
-
-      const response = await fetch(`http://localhost:3000/produtos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify(produto)
-      });
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.erro || "Erro ao salvar o produto.");
-      }
-
+      await api.put(`/produtos/${id}`, produto);
       alert("Produto atualizado com sucesso!");
       navigate("/medicamentos");
     } catch (err) {
-      setErro(err.message);
+      setErro(err.message || "Erro ao salvar o produto.");
     } finally {
       setSalvando(false);
     }
