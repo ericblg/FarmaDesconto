@@ -13,11 +13,7 @@ export default function Solicitacoes() {
   const [erro, setErro] = useState(null);
   const [filtroStatus, setFiltroStatus] = useState("Todos os status");
 
-  useEffect(() => {
-    carregarSolicitacoes();
-  }, []);
-
-  async function carregarSolicitacoes() {
+  const carregarSolicitacoes = async () => {
     try {
       const data = await api.get("/solicitacoes");
       setSolicitacoes(data);
@@ -27,7 +23,12 @@ export default function Solicitacoes() {
     } finally {
       setCarregando(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    carregarSolicitacoes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function atualizarStatus(id, status) {
     if (window.confirm(`Mudar status para ${status}?`)) {
