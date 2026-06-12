@@ -9,5 +9,7 @@ router.use(verifyToken);
 router.post("/", controller.criarSolicitacao);
 router.get("/", controller.listarSolicitacoes);
 router.put("/:id/status", controller.atualizarStatus);
+router.put("/:id", controller.atualizarSolicitacao);
+router.delete("/:id", controller.excluirSolicitacao);
 
 export default router;

@@ -5,6 +5,8 @@ import {
   Route,
 } from "react-router-dom";
 
+import { ModalProvider } from "./contexts/ModalContext";
+
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import Dashboard from "./pages/Dashboard";
@@ -12,6 +14,7 @@ import Medicamentos from "./pages/Medicamentos";
 import Cadastrar from "./pages/Cadastrar";
 import Solicitacoes from "./pages/Solicitacoes";
 import Editar from "./pages/Editar";
+
 export default function App() {
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
@@ -28,14 +31,15 @@ export default function App() {
   }, [darkMode]);
 
   return (
-    <BrowserRouter>
-      <button 
-        className="dark-mode-toggle" 
-        onClick={() => setDarkMode(!darkMode)}
-        title="Alternar Modo Escuro"
-      >
-        {darkMode ? '☀️' : '🌙'}
-      </button>
+    <ModalProvider>
+      <BrowserRouter>
+        <button 
+          className="dark-mode-toggle" 
+          onClick={() => setDarkMode(!darkMode)}
+          title="Alternar Modo Escuro"
+        >
+          {darkMode ? '☀️' : '🌙'}
+        </button>
       <Routes>
 
         {/* LOGIN */}
@@ -88,9 +92,7 @@ export default function App() {
         />
 
       </Routes>
-
     </BrowserRouter>
-
+    </ModalProvider>
   );
-
 }

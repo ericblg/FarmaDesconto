@@ -3,10 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../App.css";
 import { api } from "../services/api";
+import { useModal } from "../contexts/ModalContext";
 
 export default function Editar() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showAlert } = useModal();
 
   const [produto, setProduto] = useState({
     nome: "",
@@ -22,7 +24,8 @@ export default function Editar() {
   useEffect(() => {
     async function carregarProduto() {
       try {
-        const data = await api.get(`/produtos/${id}`);
+        const response = await api.get(`/produtos/${id}`);
+        const data = response.data;
         // Converte a data para o formato YYYY-MM-DD para o input type="date"
         if (data.data_validade) {
           data.data_validade = data.data_validade.split('T')[0];
@@ -44,7 +47,7 @@ export default function Editar() {
 
     try {
       await api.put(`/produtos/${id}`, produto);
-      alert("Produto atualizado com sucesso!");
+      await showAlert("Produto atualizado com sucesso!", "success");
       navigate("/medicamentos");
     } catch (err) {
       setErro(err.message || "Erro ao salvar o produto.");
@@ -86,18 +89,6 @@ export default function Editar() {
                   type="text"
                   name="descricao"
                   value={produto.descricao}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Preço</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  name="preco"
-                  value={produto.preco}
                   onChange={handleChange}
                   required
                 />

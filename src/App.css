@@ -72,7 +72,7 @@ LOGIN / CADASTRO
 
   border-radius: 30px;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
 }
 
@@ -203,11 +203,9 @@ button {
 
   border-radius: 16px;
 
-  background: linear-gradient(
-    90deg,
-    #00b14f,
-    #00d46a
-  );
+  background: linear-gradient(90deg,
+      #00b14f,
+      #00d46a);
 
   color: white;
 
@@ -372,7 +370,7 @@ CARDS IMPACTO
 
   padding: 28px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -468,7 +466,7 @@ GRÁFICOS
 
   padding: 30px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -508,15 +506,13 @@ GRÁFICOS
 
   border-radius: 50%;
 
-  background: conic-gradient(
-    #16a34a 0% 25%,
-    #14b8a6 25% 38%,
-    #ec4899 38% 51%,
-    #8b5cf6 51% 64%,
-    #f59e0b 64% 77%,
-    #ef4444 77% 90%,
-    #2563eb 90% 100%
-  );
+  background: conic-gradient(#16a34a 0% 25%,
+      #14b8a6 25% 38%,
+      #ec4899 38% 51%,
+      #8b5cf6 51% 64%,
+      #f59e0b 64% 77%,
+      #ef4444 77% 90%,
+      #2563eb 90% 100%);
 
 }
 
@@ -662,7 +658,7 @@ GRÁFICOS
 
   padding: 30px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -763,7 +759,7 @@ MEDICAMENTOS
 
   margin-bottom: 35px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -806,7 +802,7 @@ MEDICAMENTOS
 
   padding: 30px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -938,7 +934,7 @@ CADASTRAR
 
   padding: 40px;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -1041,6 +1037,53 @@ CADASTRAR
 }
 
 /* =========================
+ICON BUTTONS (SOLICITAÇÕES)
+========================= */
+.btn-icon-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-icon:hover {
+  transform: scale(1.15);
+}
+
+.btn-icon:active {
+  transform: scale(0.9);
+}
+
+.btn-icon-edit {
+  background: #3ba94d;
+}
+
+.btn-icon-cancel {
+  background: #ef4444;
+}
+
+.btn-icon-approve {
+  background: #3b82f6;
+}
+
+/* =========================
 SOLICITAÇÕES
 ========================= */
 
@@ -1064,7 +1107,7 @@ SOLICITAÇÕES
 
   padding: 30px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
 
   overflow-x: auto;
 
@@ -1119,23 +1162,17 @@ thead {
 }
 
 th {
-
   text-align: left;
-
-  padding-bottom: 18px;
-
+  padding: 16px;
   color: #6b7280;
-
-  font-size: 14px;
-
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 td {
-
-  padding: 22px 0;
-
+  padding: 16px;
   border-bottom: 1px solid #f3f4f6;
-
+  vertical-align: middle;
 }
 
 .solicitante {
@@ -1575,7 +1612,7 @@ PAGINA SOLICITACOES ALGUMAS ALTERACÕES
 
   padding: 30px !important;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04) !important;
 
 }
 
@@ -1605,7 +1642,7 @@ PAGINA SOLICITACOES ALGUMAS ALTERACÕES
 
   padding: 30px !important;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04) !important;
 
 }
 
@@ -1660,25 +1697,17 @@ thead {
 }
 
 th {
-
   text-align: left !important;
-
-  padding-bottom: 18px !important;
-
+  padding: 16px !important;
   color: #6b7280 !important;
-
   font-size: 14px !important;
-
+  white-space: nowrap !important;
 }
 
 td {
-
-  padding: 24px 0 !important;
-
+  padding: 16px !important;
   border-bottom: 1px solid #f3f4f6 !important;
-
   color: #111827 !important;
-
 }
 
 .medicamento-nome {
@@ -1945,7 +1974,7 @@ body.dark-mode .btn-secundario {
   height: 60px;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -1965,7 +1994,7 @@ body.dark-mode .dark-mode-toggle {
 /* =========================
    MODO ESCURO - OVERRIDES
 ========================= */
-body.dark-mode, 
+body.dark-mode,
 body.dark-mode .dashboard {
   background-color: #111827 !important;
   color: #f9fafb !important;
@@ -1990,10 +2019,10 @@ body.dark-mode textarea {
   border-color: #374151 !important;
 }
 
-body.dark-mode h1, 
-body.dark-mode h2, 
-body.dark-mode h3, 
-body.dark-mode p, 
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
 body.dark-mode span,
 body.dark-mode label {
   color: #e5e7eb !important;
@@ -2010,12 +2039,15 @@ body.dark-mode .logo {
   .impacto-cards {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .graficos-grid {
     grid-template-columns: 1fr;
   }
+
   .filtros-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .medicamentos-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2025,29 +2057,147 @@ body.dark-mode .logo {
   .dashboard {
     padding: 15px;
   }
+
   .dashboard-topo {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
   }
+
   .impacto-cards {
     grid-template-columns: 1fr;
   }
+
   .impacto-social-grid {
     grid-template-columns: 1fr;
   }
+
   .filtros-grid {
     grid-template-columns: 1fr;
   }
+
   .medicamentos-grid {
     grid-template-columns: 1fr;
   }
-  .linha-form, .linha-form-3 {
+
+  .linha-form,
+  .linha-form-3 {
     flex-direction: column;
     gap: 0;
   }
+
   .nav-content {
     flex-direction: column;
     gap: 15px;
   }
+}
+
+/* =========================
+MODAL CUSTOMIZADO
+========================= */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.dark-mode .modal-content {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+.modal-icon {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  display: flex; justify-content: center; align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal-icon-success { background-color: #dcfce7; color: #22c55e; }
+.modal-icon-warning { background-color: #fef9c3; color: #eab308; }
+.modal-icon-error { background-color: #fee2e2; color: #ef4444; }
+.modal-icon-prompt { background-color: #e0e7ff; color: #6366f1; }
+
+.modal-message {
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  margin: 0;
+}
+
+.dark-mode .modal-message {
+  color: #e5e7eb;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.btn-modal {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+  color: #fff;
+}
+
+.btn-modal:hover { opacity: 0.9; }
+
+.btn-modal-success, .btn-modal-warning, .btn-modal-error, .btn-modal-prompt {
+  background: linear-gradient(90deg, #00b14f, #00d46a);
+}
+
+.btn-modal-error { background: #ef4444; }
+.btn-modal-delete { background: #ef4444; }
+.btn-modal-warning { background: #eab308; }
+.btn-modal-approve { background: #3b82f6; }
+.btn-modal-cancel { background: #9ca3af; }
+
+.animate-pop {
+  animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

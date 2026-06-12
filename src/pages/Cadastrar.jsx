@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../App.css";
 import Navbar from "../components/Navbar";
 import { api } from "../services/api";
+import { useModal } from "../contexts/ModalContext";
 
 export default function Cadastrar() {
   const usuarioStr = localStorage.getItem("usuario");
@@ -12,10 +13,11 @@ export default function Cadastrar() {
   const [quantidade, setQuantidade] = useState("");
   const [validade, setValidade] = useState("");
   const [observacoes, setObservacoes] = useState("");
+  const { showAlert } = useModal();
 
   async function cadastrarMedicamento() {
     if (!nome || !validade) {
-      alert("Por favor, preencha o nome e a data de validade.");
+      await showAlert("Por favor, preencha o nome e a data de validade.", "warning");
       return;
     }
 
@@ -29,14 +31,14 @@ export default function Cadastrar() {
         farmacia_id: usuario ? usuario.id : 1
       });
 
-      alert("Medicamento cadastrado com sucesso!");
+      await showAlert("Medicamento cadastrado com sucesso!", "success");
       setNome("");
       setCategoria("");
       setQuantidade("");
       setValidade("");
       setObservacoes("");
     } catch (error) {
-      alert("Erro ao cadastrar: " + (error.message || "Verifique os dados"));
+      await showAlert("Erro ao cadastrar: " + (error.message || "Verifique os dados"), "error");
     }
   }
 

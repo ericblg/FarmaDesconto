@@ -23,11 +23,7 @@ const Product = sequelize.define("Product", {
   },
   farmacia_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "farmacias",
-      key: "id"
-    }
+    allowNull: false
   }
 }, {
   tableName: "produtos",

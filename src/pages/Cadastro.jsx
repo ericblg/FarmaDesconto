@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { api } from "../services/api";
+import { useModal } from "../contexts/ModalContext";
 
 export default function Cadastro() {
 
@@ -16,6 +17,7 @@ export default function Cadastro() {
   const [erro, setErro] = useState("");
 
   const navigate = useNavigate();
+  const { showAlert } = useModal();
 
   async function cadastrar() {
     if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
@@ -31,7 +33,7 @@ export default function Cadastro() {
     try {
       await api.post("/usuarios/register", { nome, email, senha, tipo });
       setErro("");
-      alert("Cadastro realizado com sucesso!");
+      await showAlert("Cadastro realizado com sucesso!", "success");
       navigate("/"); // Redireciona para o login após cadastrar
     } catch (error) {
       setErro(error.message || "Erro ao conectar com o servidor");

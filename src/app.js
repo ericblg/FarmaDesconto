@@ -41,6 +41,8 @@ Solicitacao.belongsTo(Farmacia, { foreignKey: "farmacia_id", as: "farmacia" });
 Product.hasMany(Solicitacao, { foreignKey: "produto_id" });
 Usuario.hasMany(Solicitacao, { foreignKey: "cliente_id" });
 Farmacia.hasMany(Solicitacao, { foreignKey: "farmacia_id" });
+Product.belongsTo(Farmacia, { foreignKey: "farmacia_id", as: "farmacia" });
+Farmacia.hasMany(Product, { foreignKey: "farmacia_id" });
 
 sequelize.sync().then(async () => {
   try {

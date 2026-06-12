@@ -1,35 +1,47 @@
 import Product from "../models/Product.js";
 import Farmacia from "../models/farmaciaModel.js";
+import Usuario from "../models/usuario.js";
 import { Op } from "sequelize";
 
 // Criar produto
 export const createProduct = async (req, res) => {
   const { nome, preco, data_validade, farmacia_id, descricao, quantidade } = req.body;
 
-  // 1. Validar campos obrigatórios
-  if (!nome || preco === undefined || preco === null || !data_validade || !farmacia_id) {
+  if (!nome || preco === undefined || preco === null || !data_validade) {
     return res.status(400).json({
-      erro: "Os campos nome, preco, data_validade e farmacia_id são obrigatórios"
+      erro: "Os campos nome, preco e data_validade são obrigatórios"
     });
   }
 
   try {
-    // 2. Verificar se a farmácia existe
-    const farmacia = await Farmacia.findByPk(farmacia_id);
-    if (!farmacia) {
+    const usuarioId = req.usuario ? req.usuario.id : farmacia_id;
+    const usuario = await Usuario.findByPk(usuarioId);
+    
+    if (!usuario || usuario.tipo !== 'farmacia') {
       return res.status(404).json({
-        erro: "Farmácia não encontrada"
+        erro: "Usuário não encontrado ou não é uma farmácia válida"
       });
     }
 
-    // 3. Criar produto
+    // Busca a Farmácia real vinculada ao usuário, ou cria se não existir
+    let farmacia = await Farmacia.findOne({ where: { usuario_id: usuarioId } });
+    if (!farmacia) {
+       farmacia = await Farmacia.create({
+           nome: usuario.nome,
+           endereco: "Endereço não informado",
+           telefone: "0000000000",
+           usuario_id: usuario.id
+       });
+    }
+
+    // Cria usando o ID real da Farmácia
     const product = await Product.create({
       nome,
       descricao,
       preco,
       data_validade,
       quantidade,
-      farmacia_id
+      farmacia_id: farmacia.id
     });
 
     res.status(201).json({
@@ -44,7 +56,9 @@ export const createProduct = async (req, res) => {
 
 // Listar todos
 export const getProducts = async (req, res) => {
-  const products = await Product.findAll();
+  const products = await Product.findAll({
+     include: [{ model: Farmacia, as: 'farmacia' }]
+  });
   res.json(products);
 };
 
@@ -60,6 +74,7 @@ export const getExpiringProducts = async (req, res) => {
         [Op.between]: [hoje, limite],
       },
     },
+    include: [{ model: Farmacia, as: 'farmacia' }]
   });
 
   res.json(products);
@@ -69,7 +84,7 @@ export const getExpiringProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByPk(id);
+    const product = await Product.findByPk(id, { include: [{ model: Farmacia, as: 'farmacia' }] });
     if (!product) return res.status(404).json({ erro: "Produto não encontrado" });
     res.json(product);
   } catch (err) {
@@ -83,11 +98,11 @@ export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { nome, descricao, preco, data_validade, quantidade } = req.body;
     
-    const product = await Product.findByPk(id);
+    const product = await Product.findByPk(id, { include: [{ model: Farmacia, as: 'farmacia' }] });
     if (!product) return res.status(404).json({ erro: "Produto não encontrado" });
     
-    // Verifica permissão (apenas a própria farmácia pode editar)
-    if (req.usuario && req.usuario.tipo === 'farmacia' && product.farmacia_id !== req.usuario.id) {
+    // Verifica permissão
+    if (req.usuario && req.usuario.tipo === 'farmacia' && product.farmacia && product.farmacia.usuario_id !== req.usuario.id) {
        return res.status(403).json({ erro: "Você não tem permissão para editar este produto" });
     }
 
@@ -102,11 +117,11 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByPk(id);
+    const product = await Product.findByPk(id, { include: [{ model: Farmacia, as: 'farmacia' }] });
     if (!product) return res.status(404).json({ erro: "Produto não encontrado" });
 
     // Verifica permissão
-    if (req.usuario && req.usuario.tipo === 'farmacia' && product.farmacia_id !== req.usuario.id) {
+    if (req.usuario && req.usuario.tipo === 'farmacia' && product.farmacia && product.farmacia.usuario_id !== req.usuario.id) {
        return res.status(403).json({ erro: "Sem permissão" });
     }
 
