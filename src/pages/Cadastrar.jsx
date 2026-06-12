@@ -12,7 +12,7 @@ export default function Cadastrar() {
   const [categoria, setCategoria] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [validade, setValidade] = useState("");
-  const [observacoes, setObservacoes] = useState("");
+  const [descricao, setDescricao] = useState("");
   const { showAlert } = useModal();
 
   async function cadastrarMedicamento() {
@@ -24,7 +24,8 @@ export default function Cadastrar() {
     try {
       await api.post("/produtos", {
         nome,
-        descricao: categoria + " - " + observacoes,
+        categoria,
+        descricao,
         preco: 0, // mock já que é doação
         data_validade: validade,
         quantidade: Number(quantidade) || 1,
@@ -36,7 +37,7 @@ export default function Cadastrar() {
       setCategoria("");
       setQuantidade("");
       setValidade("");
-      setObservacoes("");
+      setDescricao("");
     } catch (error) {
       await showAlert("Erro ao cadastrar: " + (error.message || "Verifique os dados"), "error");
     }
@@ -100,11 +101,11 @@ export default function Cadastrar() {
             </div>
 
             <div className="form-group">
-              <label>Observações</label>
+              <label>Descrição</label>
               <textarea
                 placeholder="Informações adicionais sobre o medicamento..."
-                value={observacoes}
-                onChange={(e) => setObservacoes(e.target.value)}
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
               />
             </div>
           </div>
@@ -112,7 +113,7 @@ export default function Cadastrar() {
           <div className="fornecedor-premium">
             <div>
               <span>Organização</span>
-              <h3>{usuario ? usuario.nome : 'Farmácia Central'}</h3>
+              <h3>{usuario ? (usuario.farmaciaNome || usuario.nome) : 'Farmácia Central'}</h3>
             </div>
             <div>
               <span>Tipo</span>

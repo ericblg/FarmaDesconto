@@ -13,6 +13,7 @@ export default function Cadastro() {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [tipo, setTipo] = useState("cliente");
+  const [nomeFarmacia, setNomeFarmacia] = useState("");
 
   const [erro, setErro] = useState("");
 
@@ -21,7 +22,12 @@ export default function Cadastro() {
 
   async function cadastrar() {
     if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
-      setErro("Preencha todos os campos");
+      setErro("Preencha todos os campos básicos");
+      return;
+    }
+
+    if (tipo === "farmacia" && nomeFarmacia === "") {
+      setErro("Preencha o nome da farmácia");
       return;
     }
 
@@ -31,7 +37,7 @@ export default function Cadastro() {
     }
 
     try {
-      await api.post("/usuarios/register", { nome, email, senha, tipo });
+      await api.post("/usuarios/register", { nome, email, senha, tipo, nomeFarmacia });
       setErro("");
       await showAlert("Cadastro realizado com sucesso!", "success");
       navigate("/"); // Redireciona para o login após cadastrar
@@ -101,6 +107,18 @@ export default function Cadastro() {
           </select>
 
         </div>
+
+        {tipo === "farmacia" && (
+          <div className="form-group">
+            <label>Nome da Farmácia</label>
+            <input
+              type="text"
+              placeholder="Digite o nome do estabelecimento"
+              value={nomeFarmacia}
+              onChange={(e) => setNomeFarmacia(e.target.value)}
+            />
+          </div>
+        )}
 
         <div className="form-group">
 

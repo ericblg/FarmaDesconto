@@ -66,7 +66,8 @@ export const listarSolicitacoes = async (req, res) => {
       where,
       include: [
         { model: Product, as: "produto", attributes: ["nome", "descricao"] },
-        { model: Usuario, as: "cliente", attributes: ["nome", "email"] }
+        { model: Usuario, as: "cliente", attributes: ["nome", "email"] },
+        { model: Farmacia, as: "farmacia", attributes: ["nome"] }
       ],
       order: [["createdAt", "DESC"]]
     });

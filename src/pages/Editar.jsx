@@ -12,6 +12,7 @@ export default function Editar() {
 
   const [produto, setProduto] = useState({
     nome: "",
+    categoria: "",
     descricao: "",
     preco: "",
     quantidade: "",
@@ -24,21 +25,24 @@ export default function Editar() {
   useEffect(() => {
     async function carregarProduto() {
       try {
-        const response = await api.get(`/produtos/${id}`);
-        const data = response.data;
+        const data = await api.get(`/produtos/${id}`);
+        if (!data || !data.id) {
+          throw new Error("Produto não encontrado.");
+        }
         // Converte a data para o formato YYYY-MM-DD para o input type="date"
         if (data.data_validade) {
           data.data_validade = data.data_validade.split('T')[0];
         }
         setProduto(data);
       } catch (err) {
-        setErro(err.message || "Erro ao carregar produto.");
+        showAlert("Não foi possível carregar os dados do produto. Ele pode ter sido excluído.", "error");
+        navigate("/medicamentos");
       } finally {
         setCarregando(false);
       }
     }
     carregarProduto();
-  }, [id]);
+  }, [id, navigate, showAlert]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,7 +54,7 @@ export default function Editar() {
       await showAlert("Produto atualizado com sucesso!", "success");
       navigate("/medicamentos");
     } catch (err) {
-      setErro(err.message || "Erro ao salvar o produto.");
+      showAlert("Não foi possível salvar as alterações. Verifique os dados e tente novamente.", "error");
     } finally {
       setSalvando(false);
     }
@@ -84,6 +88,21 @@ export default function Editar() {
               </div>
 
               <div className="form-group">
+                <label>Categoria</label>
+                <select
+                  name="categoria"
+                  value={produto.categoria || ""}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Selecione</option>
+                  <option value="Analgésicos">Analgésicos</option>
+                  <option value="Anti-inflamatórios">Anti-inflamatórios</option>
+                  <option value="Antibióticos">Antibióticos</option>
+                </select>
+              </div>
+
+              <div className="form-group">
                 <label>Descrição</label>
                 <input
                   type="text"
@@ -113,6 +132,17 @@ export default function Editar() {
                   value={produto.data_validade}
                   onChange={handleChange}
                   required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Fornecedor</label>
+                <input
+                  type="text"
+                  name="fornecedor"
+                  value={produto.farmacia?.nome || 'Farmácia Parceira'}
+                  disabled
+                  title="O fornecedor não pode ser alterado."
                 />
               </div>
 

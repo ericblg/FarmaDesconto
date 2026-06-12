@@ -157,7 +157,7 @@ export default function Solicitacoes() {
                 <thead>
                   <tr>
                     <th>Medicamento</th>
-                    <th>{isFarmacia ? "Solicitante" : "Farmácia Destino (ID)"}</th>
+                    <th>{isFarmacia ? "Solicitante" : "🏥 Farmácia Destino"}</th>
                     <th>Quantidade</th>
                     <th>Data</th>
                     <th>Status</th>
@@ -173,7 +173,9 @@ export default function Solicitacoes() {
                       <td>
                         <div className="solicitante">
                           <strong>
-                            {isFarmacia ? (sol.cliente ? sol.cliente.nome : "Desconhecido") : `Farmácia ID: ${sol.farmacia_id}`}
+                            {isFarmacia 
+                              ? (sol.cliente ? sol.cliente.nome : "Desconhecido") 
+                              : (sol.farmacia ? sol.farmacia.nome : "Desconhecido")}
                           </strong>
                           {isFarmacia && <span>{sol.cliente?.email}</span>}
                         </div>

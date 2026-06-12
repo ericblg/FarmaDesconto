@@ -5,7 +5,7 @@ import { Op } from "sequelize";
 
 // Criar produto
 export const createProduct = async (req, res) => {
-  const { nome, preco, data_validade, farmacia_id, descricao, quantidade } = req.body;
+  const { nome, preco, data_validade, farmacia_id, categoria, descricao, quantidade } = req.body;
 
   if (!nome || preco === undefined || preco === null || !data_validade) {
     return res.status(400).json({
@@ -37,6 +37,7 @@ export const createProduct = async (req, res) => {
     // Cria usando o ID real da Farmácia
     const product = await Product.create({
       nome,
+      categoria,
       descricao,
       preco,
       data_validade,
@@ -96,7 +97,7 @@ export const getProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome, descricao, preco, data_validade, quantidade } = req.body;
+    const { nome, categoria, descricao, preco, data_validade, quantidade } = req.body;
     
     const product = await Product.findByPk(id, { include: [{ model: Farmacia, as: 'farmacia' }] });
     if (!product) return res.status(404).json({ erro: "Produto não encontrado" });
@@ -106,7 +107,7 @@ export const updateProduct = async (req, res) => {
        return res.status(403).json({ erro: "Você não tem permissão para editar este produto" });
     }
 
-    await product.update({ nome, descricao, preco, data_validade, quantidade });
+    await product.update({ nome, categoria, descricao, preco, data_validade, quantidade });
     res.json({ mensagem: "Produto atualizado com sucesso", produto: product });
   } catch (err) {
     res.status(500).json({ erro: "Erro ao atualizar produto", detalhes: err.message });

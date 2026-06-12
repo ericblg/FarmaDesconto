@@ -6,6 +6,10 @@ const Product = sequelize.define("Product", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  categoria: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   descricao: {
     type: DataTypes.STRING,
   },

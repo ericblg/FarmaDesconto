@@ -71,7 +71,9 @@ export default function Medicamentos() {
   }
 
   const produtosExibidos = useMemo(() => {
-    let filtrados = isFarmacia ? produtos.filter(p => p.farmacia && p.farmacia.usuario_id === usuario?.id) : produtos;
+    let filtrados = isFarmacia 
+      ? produtos.filter(p => p.farmacia && p.farmacia.usuario_id === usuario?.id) 
+      : produtos.filter(p => p.quantidade > 0);
 
     if (buscaTexto) {
       const buscaLower = buscaTexto.toLowerCase();
@@ -83,7 +85,7 @@ export default function Medicamentos() {
 
     if (categoriaFiltro !== "Todas as categorias") {
       filtrados = filtrados.filter(p =>
-        p.descricao && p.descricao.includes(categoriaFiltro)
+        p.categoria === categoriaFiltro
       );
     }
 
@@ -147,15 +149,24 @@ export default function Medicamentos() {
                     <h3 style={{ fontSize: '1.4rem', fontWeight: '800', color: '#111827', margin: '0 0 4px 0', lineHeight: '1.2' }}>
                       {produto.nome}
                     </h3>
-                    <p style={{ fontSize: '0.9rem', color: '#6b7280', margin: 0, fontWeight: '500' }}>
-                      {produto.descricao || 'Sem descrição'}
-                    </p>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px', backgroundColor: '#f9fafb', padding: '12px', borderRadius: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.95rem', color: '#374151' }}>
+                      <span style={{ fontSize: '1.1rem' }}>🏷️</span>
+                      <span style={{ fontWeight: '600', whiteSpace: 'nowrap' }}>Categoria:</span>
+                      <span>{produto.categoria || 'Não informada'}</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.95rem', color: '#374151' }}>
+                      <span style={{ fontSize: '1.1rem' }}>📝</span>
+                      <span style={{ fontWeight: '600', whiteSpace: 'nowrap' }}>Descrição:</span>
+                      <span>{produto.descricao || 'Sem descrição'}</span>
+                    </div>
+
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.95rem', color: '#374151' }}>
                       <span style={{ fontSize: '1.1rem' }}>📦</span>
-                      <span style={{ fontWeight: '600' }}>Estoque:</span>
+                      <span style={{ fontWeight: '600' }}>Quantidade:</span>
                       <span>{produto.quantidade} unidades</span>
                     </div>
 

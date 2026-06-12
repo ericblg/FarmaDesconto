@@ -47,7 +47,7 @@ export const api = {
       });
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Erro HTTP: ${response.status}`);
+        throw new Error(errorData.erro || errorData.error || `Erro HTTP: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
@@ -65,7 +65,7 @@ export const api = {
       });
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Erro HTTP: ${response.status}`);
+        throw new Error(errorData.erro || errorData.error || `Erro HTTP: ${response.status}`);
       }
       return await response.json();
     } catch (error) {
