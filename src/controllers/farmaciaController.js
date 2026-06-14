@@ -3,9 +3,9 @@ import Usuario from "../models/usuario.js";
 
 
 export const cadastrar = async (req, res) => {
-  const { nome, endereco, telefone, usuario_id } = req.body;
+  const { nome, usuario_id } = req.body;
 
-  if (!nome || !endereco || !telefone || !usuario_id) {
+  if (!nome || !usuario_id) {
     return res.status(400).json({
       erro: "Todos os campos são obrigatórios"
     });
@@ -42,8 +42,6 @@ export const cadastrar = async (req, res) => {
     // 💾 criar farmácia
     const novaFarmacia = await Farmacia.create({
       nome,
-      endereco,
-      telefone,
       usuario_id
     });
 
@@ -64,7 +62,7 @@ export const cadastrar = async (req, res) => {
 export const listar = async (req, res) => {
   try {
     const farmacias = await Farmacia.findAll({
-      attributes: ["id", "nome", "endereco", "telefone", "usuario_id"]
+      attributes: ["id", "nome", "usuario_id"]
     });
 
     res.status(200).json(farmacias);

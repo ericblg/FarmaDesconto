@@ -28,8 +28,6 @@ export const createProduct = async (req, res) => {
     if (!farmacia) {
        farmacia = await Farmacia.create({
            nome: usuario.nome,
-           endereco: "Endereço não informado",
-           telefone: "0000000000",
            usuario_id: usuario.id
        });
     }

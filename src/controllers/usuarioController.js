@@ -38,8 +38,6 @@ export const register = async (req, res) => {
         if (tipo === 'farmacia') {
             await Farmacia.create({
                 nome: nomeFarmacia,
-                endereco: "Endereço não informado",
-                telefone: "0000000000",
                 usuario_id: usuario.id
             });
         }

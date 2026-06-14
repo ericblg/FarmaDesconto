@@ -63,8 +63,6 @@ sequelize.sync().then(async () => {
     if (farmaciaCount === 0) {
       await Farmacia.create({
         nome: "Farmácia Central",
-        endereco: "Rua Principal, 100",
-        telefone: "11999999999",
         usuario_id: user.id
       });
       console.log("Farmácia inicial (seed) criada com sucesso.");
